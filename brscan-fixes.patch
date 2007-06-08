@@ -1,0 +1,114 @@
+diff -ur brscan-src-0.2.3-o/brscan/backend_src/brother_advini.c brscan-src-0.2.3/brscan/backend_src/brother_advini.c
+--- brscan-src-0.2.3-o/brscan/backend_src/brother_advini.c	2006-03-03 01:51:55.000000000 -0700
++++ brscan-src-0.2.3/brscan/backend_src/brother_advini.c	2007-06-08 15:10:32.000000000 -0600
+@@ -24,7 +24,7 @@
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <dirent.h>
+-#include <curses.h>
++#include <ncurses/curses.h>
+ #include <unistd.h>
+ 
+ #include "brother_advini.h"
+diff -ur brscan-src-0.2.3-o/brscan/configure.in brscan-src-0.2.3/brscan/configure.in
+--- brscan-src-0.2.3-o/brscan/configure.in	2006-06-30 00:30:24.000000000 -0600
++++ brscan-src-0.2.3/brscan/configure.in	2007-06-08 15:10:32.000000000 -0600
+@@ -40,64 +40,6 @@
+ AC_ISC_POSIX
+ AM_PROG_CC_STDC
+ 
+-INCLUDES="${INCLUDES} -I/usr/local/include"
+-CPPFLAGS="${CPPFLAGS} -D_GNU_SOURCE"
+-
+-if test "${ac_cv_prog_gcc}" = "yes"; then
+-  NORMAL_CFLAGS="\
+-      -W \
+-      -Wall"
+-  WARN_CFLAGS="\
+-      -W \
+-      -Wall \
+-      -Wcast-align \
+-      -Wcast-qual \
+-      -Wmissing-declarations \
+-      -Wmissing-prototypes \
+-      -Wpointer-arith \
+-      -Wreturn-type \
+-      -Wstrict-prototypes \
+-      -pedantic"
+-
+-  dnl OS/2 and others don't include some headers with -ansi enabled
+-  ANSI_FLAG=-ansi
+-  AC_CHECK_HEADER(os2.h,[ANSI_FLAG=],)
+-  case "${host_os}" in  
+-    solaris*)
+-      ANSI_FLAG=
+-      ;;
+-  esac
+-  WARN_CFLAGS="${WARN_CFLAGS} ${ANSI_FLAG}"
+-
+-  # Warnings enabled by default (development)
+-  AC_ARG_ENABLE(warnings,
+-    [  --enable-warnings       turn on tons of compiler warnings (GCC only) 
+-                          [default=yes]],
+-    [
+-      if eval "test x$enable_warnings = xyes"; then 
+-        for flag in $WARN_CFLAGS; do
+-          JAPHAR_GREP_CFLAGS($flag, [ CFLAGS="$CFLAGS $flag" ])
+-        done
+-      else
+-        for flag in $NORMAL_CFLAGS; do
+-          JAPHAR_GREP_CFLAGS($flag, [ CFLAGS="$CFLAGS $flag" ])
+-        done
+-      fi
+-    ],
+-    [if false; then # release (false) or development (true)
+-       # Warnings enabled by default (development)
+-       for flag in $WARN_CFLAGS; do
+-         JAPHAR_GREP_CFLAGS($flag, [ CFLAGS="$CFLAGS $flag" ])
+-       done
+-    else
+-       # Warnings disabled by default (release)
+-       for flag in $NORMAL_CFLAGS; do
+-         JAPHAR_GREP_CFLAGS($flag, [ CFLAGS="$CFLAGS $flag" ])
+-       done
+-    fi])
+-fi # ac_cv_prog_gcc
+-echo using CFLAGS=${CFLAGS}
+-
+ dnl Checks for header files.
+ AC_HEADER_STDC
+ AC_CHECK_HEADERS(fcntl.h unistd.h libc.h sys/dsreq.h sys/select.h \
+diff -ur brscan-src-0.2.3-o/brscan/netconfig/brsaneconfig.c brscan-src-0.2.3/brscan/netconfig/brsaneconfig.c
+--- brscan-src-0.2.3-o/brscan/netconfig/brsaneconfig.c	2007-01-25 00:20:06.000000000 -0700
++++ brscan-src-0.2.3/brscan/netconfig/brsaneconfig.c	2007-06-08 15:10:32.000000000 -0600
+@@ -22,7 +22,7 @@
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <dirent.h>
+-#include <curses.h>
++#include <ncurses/curses.h>
+ #include <unistd.h>
+ 
+ #include "brother_advini.h"
+diff -ur brscan-src-0.2.3-o/brscan/sanei/sanei_scsi.c brscan-src-0.2.3/brscan/sanei/sanei_scsi.c
+--- brscan-src-0.2.3-o/brscan/sanei/sanei_scsi.c	2006-06-30 00:30:24.000000000 -0600
++++ brscan-src-0.2.3/brscan/sanei/sanei_scsi.c	2007-06-08 15:10:56.000000000 -0600
+@@ -1916,7 +1916,7 @@
+             }
+           req->sgdata.sg3.hdr.dxfer_len = src_size;
+           memcpy(&req->sgdata.sg3.data[MAX_CDB], src, src_size);
+-          (const void*) req->sgdata.sg3.hdr.dxferp = &req->sgdata.sg3.data[MAX_CDB];
++          req->sgdata.sg3.hdr.dxferp = &req->sgdata.sg3.data[MAX_CDB];
+         }
+       else
+         {
+@@ -1930,7 +1930,7 @@
+           cmd_size = MAX_CDB;
+         }
+       memcpy(req->sgdata.sg3.data, cmd, cmd_size);
+-      (const void*) req->sgdata.sg3.hdr.cmdp = req->sgdata.sg3.data;
++      req->sgdata.sg3.hdr.cmdp = req->sgdata.sg3.data;
+       req->sgdata.sg3.hdr.sbp = &(req->sgdata.sg3.sense_buffer[0]);
+       /* 1 minute should be ok even for slow scanners */
+       req->sgdata.sg3.hdr.timeout = 1000 * SANE_SCSICMD_TIMEOUT;
+Only in brscan-src-0.2.3/brscan/sanei: sanei_scsi.c~
