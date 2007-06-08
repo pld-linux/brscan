@@ -12,6 +12,7 @@ Patch0:		%{name}-fixes.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	ncurses-devel
 Requires:	sane-backends
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
