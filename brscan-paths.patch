@@ -1,0 +1,80 @@
+--- brscan-src-0.2.3/brscan/backend_src/brother.h.orig	2006-03-03 09:51:55.000000000 +0100
++++ brscan-src-0.2.3/brscan/backend_src/brother.h	2007-06-17 11:06:07.677956257 +0200
+@@ -305,7 +305,7 @@ typedef struct Brother_Scanner {
+ #define PSIZE_HMARGIN     20			// 左右マージン(0.1mm単位)
+ 
+ #define MAX_PATH 256
+-#define BROTHER_SANE_DIR "/usr/local/Brother/sane/"
++#define BROTHER_SANE_DIR "/usr/share/brscan/"
+ #define BROTHER_GRAYCMDATA_DIR "GrayCmData/"
+ 
+ #endif
+--- brscan-src-0.2.3/brscan/backend_src/brother_advini.h.orig	2006-03-03 09:51:55.000000000 +0100
++++ brscan-src-0.2.3/brscan/backend_src/brother_advini.h	2007-06-17 11:13:39.540979483 +0200
+@@ -95,7 +95,7 @@ typedef struct _netini {
+ } netini;
+ 
+ 
+-#define CONFDIR       "/usr/local/Brother/sane/"
++#define CONFDIR       "/etc/brscan/"
+ 
+ 
+ char *get_net_ini_value(int index ,int key, char *value, int size);
+@@ -122,26 +122,26 @@ sane_model_info  *get_p_model_info_by_in
+ 
+ #if BRSANESUFFIX == 1
+ 
+-#define  MODELINIDIR     "/usr/local/Brother/sane/models"
+-#define  CONFFILE        "/usr/local/Brother/sane/brsanenetdevice.cfg"
+-#define  MAININIFILE     "/usr/local/Brother/sane/Brsane.ini"
++#define  MODELINIDIR     "/usr/share/brscan/models"
++#define  CONFFILE        "/etc/brscan/brsanenetdevice.cfg"
++#define  MAININIFILE     "/usr/share/brscan/Brsane.ini"
+ #define  BRSANETMPFILE   "/tmp/brsane_tempfile_XXXXXX"
+ #define  SANESAVEFILE    ".brsaneconfig"
+ #define  S_BRSANESUFFIX  ""
+ 
+ #elif BRSANESUFFIX == 2
+ 
+-#define  MODELINIDIR     "/usr/local/Brother/sane/models2"
+-#define  CONFFILE        "/usr/local/Brother/sane/brsanenetdevice2.cfg"
+-#define  MAININIFILE     "/usr/local/Brother/sane/Brsane2.ini"
++#define  MODELINIDIR     "/usr/share/brscan/models2"
++#define  CONFFILE        "/etc/brscan/brsanenetdevice2.cfg"
++#define  MAININIFILE     "/usr/share/brscan/Brsane2.ini"
+ #define  BRSANETMPFILE   "/tmp/brsane_tempfile2_XXXXXX"
+ #define  SANESAVEFILE    ".brsaneconfig2"
+ #define  S_BRSANESUFFIX  "2"
+ 
+ #elif BRSANESUFFIX == 3
+-#define  MODELINIDIR     "/usr/local/Brother/sane/models3"
+-#define  CONFFILE        "/usr/local/Brother/sane/brsanenetdevice3.cfg"
+-#define  MAININIFILE     "/usr/local/Brother/sane/Brsane3.ini"
++#define  MODELINIDIR     "/usr/share/brscan/models3"
++#define  CONFFILE        "/etc/brscan/brsanenetdevice3.cfg"
++#define  MAININIFILE     "/usr/share/brscan/Brsane3.ini"
+ #define  BRSANETMPFILE   "/tmp/brsane_tempfile3_XXXXXX"
+ #define  SANESAVEFILE    ".brsaneconfig3"
+ #define  S_BRSANESUFFIX  "3"
+--- brscan-src-0.2.3/brscan/backend_src/brother_log.c.orig	2007-01-20 03:06:47.000000000 +0100
++++ brscan-src-0.2.3/brscan/backend_src/brother_log.c	2007-06-17 11:15:09.118876613 +0200
+@@ -57,7 +57,7 @@ static HANDLE  hLogFile = 0;
+ 
+ #define MAX_PATH 256
+ 
+-#define BROTHER_SANE_DIR "/usr/local/Brother/sane/"
++#define BROTHER_SANE_DIR "/var/log/brscan/"
+ 
+ 
+ //-----------------------------------------------------------------------------
+--- brscan-src-0.2.3/brscan/backend_src/brother_netdev.h.orig	2006-03-03 09:51:55.000000000 +0100
++++ brscan-src-0.2.3/brscan/backend_src/brother_netdev.h	2007-06-17 11:07:34.539048887 +0200
+@@ -42,7 +42,7 @@
+ 
+ #define   DLF_AUTO                (0xffffffff)
+ 
+-#define   INIFILE                 "/usr/local/Brother/scanner/brsane.cfg"
++#define   INIFILE                 "/usr/share/brscan/brsane.cfg"
+ 
+ 
+ #define ADRTYPE_IPADDRESS     0
